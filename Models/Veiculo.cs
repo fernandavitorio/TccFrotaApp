@@ -16,10 +16,10 @@ namespace TccFrotaApp.Models
 
         public string Marca { get; set; }
         public string Modelo { get; set; }
-        public string Placa { get; set; }
+        public string Placa { get; set; }   
         public string Identificador { get; set; }
 
-
+        [InverseProperty("Veiculo")]
         public List<Apontamento> Apontamentos { get; set; }
 
     }
