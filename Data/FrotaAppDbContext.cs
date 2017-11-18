@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using TccFrotaApp.Models;
 
-namespace ASPNetCoreIdentity.Data
+namespace TccFrotaApp.Data
 {
     public class FrotaAppDbContext : IdentityDbContext<Login>
     {
@@ -28,23 +28,23 @@ namespace ASPNetCoreIdentity.Data
 
             modelBuilder.Entity<Colaborador>()
             .HasMany(b => b.ApontamentosMotorista)
-            .WithOne(c => c.Motorista);
+            .WithOne(c => c.Motorista).OnDelete(DeleteBehavior.Restrict);
             
             modelBuilder.Entity<Colaborador>()
             .HasMany(b => b.ApontamentosColetor1)
-            .WithOne(c => c.Coletor1);
+            .WithOne(c => c.Coletor1).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Colaborador>()
             .HasMany(b => b.ApontamentosColetor2)
-            .WithOne(c => c.Coletor2);
+            .WithOne(c => c.Coletor2).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Colaborador>()
             .HasMany(b => b.ApontamentosColetor3)
-            .WithOne(c => c.Coletor3);
+            .WithOne(c => c.Coletor3).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Veiculo>()
             .HasMany(b => b.Apontamentos)
-            .WithOne(c => c.Veiculo);
+            .WithOne(c => c.Veiculo).OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<Colaborador> Colaboradores { get; set; }

@@ -216,31 +216,31 @@ namespace TccFrotaApp.Migrations
                         column: x => x.Coletor1Id,
                         principalTable: "Colaboradores",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Apontamentos_Colaboradores_Coletor2Id",
                         column: x => x.Coletor2Id,
                         principalTable: "Colaboradores",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Apontamentos_Colaboradores_Coletor3Id",
                         column: x => x.Coletor3Id,
                         principalTable: "Colaboradores",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Apontamentos_Colaboradores_MotoristaId",
                         column: x => x.MotoristaId,
                         principalTable: "Colaboradores",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Apontamentos_Veiculos_VeiculoId",
                         column: x => x.VeiculoId,
                         principalTable: "Veiculos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
