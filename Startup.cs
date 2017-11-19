@@ -11,11 +11,21 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using FluentValidation.AspNetCore;
+using AutoMapper;
+using TccFrotaApp.Helpers;
+using TccFrotaApp.Auth;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace TccFrotaApp
 {
     public class Startup
     {
+        private const string SecretKey = "needtogetthisfromenvironment"; // todo: get this from somewhere secure
+        private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,9 +37,65 @@ namespace TccFrotaApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<FrotaAppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<Login, IdentityRole>().AddEntityFrameworkStores<FrotaAppDbContext>().AddDefaultTokenProviders();
 
-            services.AddMvc();
+            // jwt wire up
+            services.AddSingleton<IJwtFactory, JwtFactory>();
+
+            // Get options from app settings
+            var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
+
+            // Configure JwtIssuerOptions
+            services.Configure<JwtIssuerOptions>(options =>
+            {
+                options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
+                options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
+                options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
+            });
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
+
+                ValidateAudience = true,
+                ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
+
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = _signingKey,
+
+                RequireExpirationTime = false,
+                ValidateLifetime = false,
+                ClockSkew = TimeSpan.Zero
+            };
+
+            services.AddAuthentication().AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.TokenValidationParameters = tokenValidationParameters;
+            });
+
+            // api user claim policy
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
+            });
+
+            services.AddIdentity<Login, IdentityRole>
+                (o =>
+                {
+                    // configure identity options
+                    o.Password.RequireDigit = false;
+                    o.Password.RequireLowercase = false;
+                    o.Password.RequireUppercase = false;
+                    o.Password.RequireNonAlphanumeric = false;
+                    o.Password.RequiredLength = 6;
+                })
+                .AddEntityFrameworkStores<FrotaAppDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            services.AddAutoMapper();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +113,7 @@ namespace TccFrotaApp
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
 
             app.UseStaticFiles();
             app.UseAuthentication();
