@@ -17,6 +17,7 @@ namespace TccFrotaApp.Models
         public int Matricula { get; set; }
         public TIPO_COLABORADOR Funcao { get; set; }
 
+        public string LoginId { get; set; }
         public Login Login { get; set; }
 
         [InverseProperty("Motorista")]
