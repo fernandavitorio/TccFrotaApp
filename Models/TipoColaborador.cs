@@ -1,4 +1,7 @@
 public enum TIPO_COLABORADOR
 {
+    ADMINISTRATIVO = 1,
+    MOTORISTA = 2,
+    COLETOR = 3,
 
 }

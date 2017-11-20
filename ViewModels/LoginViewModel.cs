@@ -4,8 +4,8 @@ using TccFrotaApp.ViewModels.Validations;
 
 namespace TccFrotaApp.ViewModels
 {
-    [Validator(typeof(CredentialsViewModelValidator))]
-    public class CredentialsViewModel
+    [Validator(typeof(LoginViewModelValidator))]
+    public class LoginViewModel
     {
         public string UserName { get; set; }
         public string Password { get; set; }

@@ -13,9 +13,8 @@ namespace TccFrotaApp.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        public DateTime DtAtualizacao { get; set; }
 
-        public DateTime DtInicio { get; set; }
-        public DateTime DtFim { get; set; }
         public SETOR Setor { get; set; }
         public TIPO_APONTAMENTO Tipo { get; set; }
 

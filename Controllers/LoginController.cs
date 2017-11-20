@@ -42,7 +42,7 @@ namespace TccFrotaApp.Controllers
 
         // POST api/auth/login
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]CredentialsViewModel credentials)
+        public async Task<IActionResult> Post([FromBody]LoginViewModel credentials)
         {
             if (!ModelState.IsValid)
             {
