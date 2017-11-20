@@ -1,0 +1,48 @@
+<h1>Cadastro de Colaborador</h1>
+
+<form name="form" class="form-employee" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !nome.valid }">
+        <label for="nome">Nome</label>
+        <input type="text" class="form-control" name="nome" [(ngModel)]="model.nome" #email="ngModel" required />
+        <div *ngIf="f.submitted && !nome.valid" class="help-block">Informe o nome</div>
+    </div>
+
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !matricula.valid }">
+        <label for="matricula">Matrícula</label>
+        <input type="number" class="form-control" name="matricula" [(ngModel)]="model.matricula" #email="ngModel" required />
+        <div *ngIf="f.submitted && !matricula.valid" class="help-block">Informe a matricula</div>
+    </div>
+
+    <div class="form-group">
+        <label for="funcao">Cargo</label>
+        <select class="form-control" name="funcao" [(ngModel)]="model.funcao" #funcao="ngModel" (ngModelChange)="onRoleChange($event)">
+            <option value="ADMINISTRATIVO">Administrativo</option>
+            <option value="MOTORISTA">Motorista</option>
+            <option value="COLETOR">Coletor</option>
+        </select>
+    </div>
+
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !email.valid }" *ngIf=="withLogin">
+        <label for="email">E-mail</label>
+        <input type="email" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel" [required]="withLogin" />
+        <div *ngIf="f.submitted && !email.valid" class="help-block">Informe o e-mail, tipo de usuário selecionado deve possuir um login</div>
+    </div>
+
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }" *ngIf=="withLogin">
+        <label for="password">Senha</label>
+        <input type="password" class="form-control" name="password" [(ngModel)]="model.senha" #password="ngModel" [required]="withLogin"
+        />
+        <div *ngIf="f.submitted && !password.valid" class="help-block">Informe a senha, tipo de usuário selecionado deve possuir um login</div>
+    </div>
+
+    <div class="form-group">
+        <div class="offset-sm-2 col-sm-5">
+            <button [disabled]="loading" class="btn btn-lg btn-primary btn-block">Salvar</button>
+            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+            />
+        </div>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+</form>

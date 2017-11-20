@@ -15,6 +15,8 @@ import { AuthGuard } from './app.auth.guard';
 import { LoginService } from './login/login.service';
 import { ApontamentosComponent } from './home/apontamentos/apontamentos.component';
 import { SelectivePreloadingStrategy } from './SelectivePreloadingStrategy';
+import { ColaboradorComponent } from './home/colaboradores/colaborador.component';
+import { ColaboradorService } from './home/colaboradores/colaborador.service';
 
 
 const appRoutes: Routes = [
@@ -29,6 +31,7 @@ const appRoutes: Routes = [
             { path: '', redirectTo: 'apontamentos', pathMatch: 'full' },
             { path: 'apontamentos', component: ApontamentosComponent, data: { title: 'Apontamentos' } },
             { path: 'colaboradores', component: ColaboradoresComponent,  data: { title: 'Colaboradores' } },
+            { path: 'colaborador', component: ColaboradorComponent,  data: { title: 'Colaborador' } },
             { path: 'veiculos', component: VeiculosComponent,  data: { title: 'Veiculos' } },
         ]
     }
@@ -42,7 +45,8 @@ const appRoutes: Routes = [
         VeiculosComponent,
         HomeComponent,
         LoginComponent,
-        ApontamentosComponent
+        ApontamentosComponent,
+        ColaboradorComponent
     ],
     imports: [
         BrowserModule,
@@ -55,6 +59,7 @@ const appRoutes: Routes = [
         Title,
         AuthGuard,
         LoginService,
+        ColaboradorService,
         SelectivePreloadingStrategy
     ],
 })
