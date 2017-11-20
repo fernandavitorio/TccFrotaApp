@@ -1,2 +1,22 @@
 <h1>Colaboradores</h1>
 
+<p *ngIf="!colaboradores"><em>Loading...</em></p>
+
+<table class='table' *ngIf="colaboradores">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Matricula</th>
+            <th>Funcao</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let colaborador of colaboradores">
+            <td>{{ colaborador.nome }}</td>
+            <td>{{ colaborador.matricula }}</td>
+            <td>{{ colaborador.funcao }}</td>
+            <td>{{ colaborador.email }}</td>
+        </tr>
+    </tbody>
+</table>

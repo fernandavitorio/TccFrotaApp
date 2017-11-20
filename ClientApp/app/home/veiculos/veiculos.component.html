@@ -1,0 +1,22 @@
+<h1>Veículos</h1>
+
+<p *ngIf="!veiculos"><em>Loading...</em></p>
+
+<table class='table' *ngIf="veiculos">
+    <thead>
+        <tr>
+            <th>Identificador</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Placa</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let veiculo of veiculos">
+            <td>{{ veiculo.identificador }}</td>
+            <td>{{ veiculo.marca }}</td>
+            <td>{{ veiculo.modelo }}</td>
+            <td>{{ veiculo.placa }}</td>
+        </tr>
+    </tbody>
+</table>

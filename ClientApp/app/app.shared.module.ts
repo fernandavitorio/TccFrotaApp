@@ -7,7 +7,7 @@ import { RouterModule, ActivatedRoute, Router, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './home/navmenu/navmenu.component';
 import { HomeComponent } from './home/home.component';
-import { FetchDataComponent } from './home/fetchdata/fetchdata.component';
+import { VeiculosComponent } from './home/veiculos/veiculos.component';
 import { ColaboradoresComponent } from './home/colaboradores/colaboradores.component';
 import { LoginComponent } from './login/login.component';
 import { Title, BrowserModule } from '@angular/platform-browser';
@@ -29,7 +29,7 @@ const appRoutes: Routes = [
             { path: '', redirectTo: 'apontamentos', pathMatch: 'full' },
             { path: 'apontamentos', component: ApontamentosComponent, data: { title: 'Apontamentos' } },
             { path: 'colaboradores', component: ColaboradoresComponent,  data: { title: 'Colaboradores' } },
-            { path: 'fetch-data', component: FetchDataComponent,  data: { title: 'Fetch' } },
+            { path: 'veiculos', component: VeiculosComponent,  data: { title: 'Veiculos' } },
         ]
     }
 ];
@@ -39,7 +39,7 @@ const appRoutes: Routes = [
         AppComponent,
         NavMenuComponent,
         ColaboradoresComponent,
-        FetchDataComponent,
+        VeiculosComponent,
         HomeComponent,
         LoginComponent,
         ApontamentosComponent
