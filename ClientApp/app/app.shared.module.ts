@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './home/navmenu/navmenu.component';
 import { HomeComponent } from './home/home.component';
 import { FetchDataComponent } from './home/fetchdata/fetchdata.component';
-import { CounterComponent } from './home/counter/counter.component';
+import { ColaboradoresComponent } from './home/colaboradores/colaboradores.component';
 import { LoginComponent } from './login/login.component';
 import { Title, BrowserModule } from '@angular/platform-browser';
 import { AuthGuard } from './app.auth.guard';
@@ -28,7 +28,7 @@ const appRoutes: Routes = [
         children: [
             { path: '', redirectTo: 'apontamentos', pathMatch: 'full' },
             { path: 'apontamentos', component: ApontamentosComponent, data: { title: 'Apontamentos' } },
-            { path: 'counter', component: CounterComponent,  data: { title: 'Counter' } },
+            { path: 'colaboradores', component: ColaboradoresComponent,  data: { title: 'Colaboradores' } },
             { path: 'fetch-data', component: FetchDataComponent,  data: { title: 'Fetch' } },
         ]
     }
@@ -38,7 +38,7 @@ const appRoutes: Routes = [
     declarations: [
         AppComponent,
         NavMenuComponent,
-        CounterComponent,
+        ColaboradoresComponent,
         FetchDataComponent,
         HomeComponent,
         LoginComponent,
