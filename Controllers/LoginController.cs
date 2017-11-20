@@ -15,6 +15,7 @@ using TccFrotaApp.Helpers;
 using TccFrotaApp.Models;
 using TccFrotaApp.ViewModels;
 
+
 namespace TccFrotaApp.Controllers
 {
     [Route("api/[controller]")]
@@ -24,12 +25,14 @@ namespace TccFrotaApp.Controllers
         private readonly IJwtFactory _jwtFactory;
         private readonly JsonSerializerSettings _serializerSettings;
         private readonly JwtIssuerOptions _jwtOptions;
+        private readonly FrotaAppDbContext _dbContext;
 
-        public LoginController(UserManager<Login> userManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions)
+        public LoginController(FrotaAppDbContext dbContext, UserManager<Login> userManager, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions)
         {
             _userManager = userManager;
             _jwtFactory = jwtFactory;
             _jwtOptions = jwtOptions.Value;
+            _dbContext = dbContext;
 
             _serializerSettings = new JsonSerializerSettings
             {
@@ -56,8 +59,9 @@ namespace TccFrotaApp.Controllers
             var response = new
             {
                 id = identity.Claims.Single(c => c.Type == "id").Value,
-                auth_token = await _jwtFactory.GenerateEncodedToken(credentials.UserName, identity),
-                expires_in = (int)_jwtOptions.ValidFor.TotalSeconds
+                name = (from a in _dbContext.Colaboradores where a.Login != null && a.Login.Email == credentials.UserName select a.Nome).FirstOrDefault(),
+                token = await _jwtFactory.GenerateEncodedToken(credentials.UserName, identity),
+                expiresIn = (int)_jwtOptions.ValidFor.TotalSeconds
             };
 
             var json = JsonConvert.SerializeObject(response, _serializerSettings);
