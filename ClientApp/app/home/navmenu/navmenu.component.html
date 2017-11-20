@@ -13,17 +13,17 @@
         <div class='navbar-collapse collapse'>
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/home', { outlets: {'home':['apontamentos']}}]">
+                    <a [routerLink]="['/home/apontamentos']">
                         <span class='glyphicon glyphicon-home'></span> Apontamentos
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/home', { outlets: {'home':['counter']}}]">
+                    <a [routerLink]="['/home/counter']">
                         <span class='glyphicon glyphicon-education'></span> Counter
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/home', { outlets: {'home':['fetch-data']}}]">
+                    <a [routerLink]="['/home/fetch-data']">
                         <span class='glyphicon glyphicon-th-list'></span> Fetch data
                     </a>
                 </li>

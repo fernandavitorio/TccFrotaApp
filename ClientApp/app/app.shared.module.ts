@@ -14,21 +14,22 @@ import { Title, BrowserModule } from '@angular/platform-browser';
 import { AuthGuard } from './app.auth.guard';
 import { LoginService } from './login/login.service';
 import { ApontamentosComponent } from './home/apontamentos/apontamentos.component';
+import { SelectivePreloadingStrategy } from './SelectivePreloadingStrategy';
 
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, data: { title: 'Login' } },
     { path: '', redirectTo: 'home', pathMatch: 'full' },
-    { path: '**', redirectTo: 'home' },
+    { path: 'home', redirectTo: 'home/apontamentos', pathMatch: 'full'},
     {
         path: 'home',
         component: HomeComponent,
         canActivate: [AuthGuard],
         children: [
-            { path: '', component: ApontamentosComponent },
-            { path: 'apontamentos', component: ApontamentosComponent, outlet: 'home', data: { title: 'Apontamentos' } },
-            { path: 'counter', component: CounterComponent, outlet: 'home', data: { title: 'Counter' } },
-            { path: 'fetch-data', component: FetchDataComponent, outlet: 'home', data: { title: 'Fetch' } },
+            { path: '', redirectTo: 'apontamentos', pathMatch: 'full' },
+            { path: 'apontamentos', component: ApontamentosComponent, data: { title: 'Apontamentos' } },
+            { path: 'counter', component: CounterComponent,  data: { title: 'Counter' } },
+            { path: 'fetch-data', component: FetchDataComponent,  data: { title: 'Fetch' } },
         ]
     }
 ];
@@ -54,6 +55,7 @@ const appRoutes: Routes = [
         Title,
         AuthGuard,
         LoginService,
+        SelectivePreloadingStrategy
     ],
 })
 export class AppModuleShared {

@@ -25,8 +25,8 @@ export class AppComponent {
           return route;
         })
         .filter((route) => route.outlet === 'primary')
-        .mergeMap((route) => route.data)
-        .subscribe((event) => this.titleService.setTitle('Frota - ' + event['title']));
+        .mergeMap((route) => route.data)   .subscribe((event) => this.titleService.setTitle('Controle de Frota'));
+        // .subscribe((event) => this.titleService.setTitle('Frota - ' + event['title']));
     }
     
 }
