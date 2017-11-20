@@ -11,8 +11,6 @@ namespace TccFrotaApp.ViewModels.Validations
             RuleFor(vm => vm.VeiculoId).LessThanOrEqualTo(0).WithMessage("Apontamento deve ter um veiculo");
             RuleFor(vm => vm.MotoristaId).LessThanOrEqualTo(0).WithMessage("Apontamento deve ter um motorista");
             RuleFor(vm => vm.Coletor1Id).LessThanOrEqualTo(0).WithMessage("Apontamento deve ter no mínimo um coletor");
-
-
         }
     }
 }

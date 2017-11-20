@@ -14,7 +14,7 @@ namespace TccFrotaApp.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public DateTime DtAtualizacao { get; set; }
-
+        public object Information {get;set;}
         public SETOR Setor { get; set; }
         public TIPO_APONTAMENTO Tipo { get; set; }
 
@@ -33,7 +33,8 @@ namespace TccFrotaApp.Models
         public int Coletor3Id { get; set; }
         public Colaborador Coletor3 { get; set; }
 
-
-
+        public int? ApontamentoInicialId { get; set; }
+        public Apontamento ApontamentoInicial { get; set; }
+        public List<Apontamento> Apontamentos{get;set;}
     }
 }

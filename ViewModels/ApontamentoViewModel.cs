@@ -10,10 +10,12 @@ namespace TccFrotaApp.ViewModels
     {
         public int Id { get; set; }
         public DateTime DtAtualizacao { get; set; }
+        public object Information {get;set;}
         public string Setor { get; set; }
         public string Tipo { get; set; }
 
         public int VeiculoId { get; set; }
+        public string VeiculoIdentificador { get; set; }
         public string VeiculoPlaca { get; set; }
 
         public int MotoristaId { get; set; }
@@ -27,6 +29,9 @@ namespace TccFrotaApp.ViewModels
 
         public int Coletor3Id { get; set; }
         public string Coletor3Nome { get; set; }
+
+        public int? ApontamentoInicialId { get; set; }
+        public ApontamentoViewModel ApontamentoInicial { get; set; }
 
     }
 }

@@ -45,6 +45,10 @@ namespace TccFrotaApp.Data
             modelBuilder.Entity<Veiculo>()
             .HasMany(b => b.Apontamentos)
             .WithOne(c => c.Veiculo).OnDelete(DeleteBehavior.Restrict);
+
+             modelBuilder.Entity<Apontamento>()
+            .HasMany(b => b.Apontamentos)
+            .WithOne(c => c.ApontamentoInicial).OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<Colaborador> Colaboradores { get; set; }
