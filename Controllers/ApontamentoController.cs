@@ -37,7 +37,7 @@ namespace TccFrotaApp.Controllers
             {
                 Id = a.Id,
                 DtAtualizacao = a.DtAtualizacao,
-                Information = a.Information,
+                AditionalInformation = a.AditionalInformation,
                 Setor = a.Setor.ToString(),
                 Tipo = a.Tipo.ToString(),
                 VeiculoId = a.VeiculoId,
@@ -69,7 +69,7 @@ namespace TccFrotaApp.Controllers
             {
                 Id = a.Id,
                 DtAtualizacao = a.DtAtualizacao,
-                Information = a.Information,
+                AditionalInformation = a.AditionalInformation,
                 Setor = a.Setor.ToString(),
                 Tipo = a.Tipo.ToString(),
                 VeiculoId = a.VeiculoId,
@@ -101,7 +101,7 @@ namespace TccFrotaApp.Controllers
             {
                 Id = a.Id,
                 DtAtualizacao = a.DtAtualizacao,
-                Information = a.Information,
+                AditionalInformation = a.AditionalInformation,
                 Setor = a.Setor.ToString(),
                 Tipo = a.Tipo.ToString(),
                 VeiculoId = a.VeiculoId,
@@ -149,7 +149,7 @@ namespace TccFrotaApp.Controllers
             var apontamento = new Apontamento()
             {
                 DtAtualizacao = model.DtAtualizacao,
-                Information = model.Information,
+                AditionalInformation = model.AditionalInformation,
                 Setor = Enum.Parse<SETOR>(model.Setor),
                 Tipo = tipoApontamento,
                 VeiculoId = model.VeiculoId,

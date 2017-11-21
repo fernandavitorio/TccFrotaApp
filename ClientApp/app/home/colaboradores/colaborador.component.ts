@@ -3,7 +3,6 @@ import { Component, Inject } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { ColaboradorService } from './colaborador.service';
-import { retry } from 'rxjs/operator/retry';
 
 @Component({
     selector: 'colaborador',
@@ -18,29 +17,31 @@ export class ColaboradorComponent {
 
     constructor(
         private router: Router,
-        private colaboradorService: ColaboradorService) { }
+        private colaboradorService: ColaboradorService) {
+
+    }
 
     save() {
         this.loading = true;
 
-        if (this.model.id <= 0) {
+        if (this.model.id && this.model.id != 0) {
 
-            this.colaboradorService.post(this.model)
-                .subscribe(this.onSucessSave,
+            this.colaboradorService.put(this.model)
+                .subscribe((response) => this.onSucessSave(response),
                 error => this.onErrorSave(error)
                 );
 
             return;
         }
 
-        this.colaboradorService.put(this.model)
-            .subscribe(this.onSucessSave,
+        this.colaboradorService.post(this.model)
+            .subscribe((response) => this.onSucessSave(response),
             error => this.onErrorSave(error)
             );
 
     }
 
-    onSucessSave() {
+    onSucessSave(response: any) {
         this.loading = false;
         this.router.navigate(['/home/colaboradores']);
     }

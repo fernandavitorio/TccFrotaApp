@@ -1,13 +1,9 @@
 <h1>Colaboradores</h1>
-
 <hr>
-
-<a class="btn btn-lg btn-primary" [routerLink]="['/home/colaborador']">Cadastrar</a>
-
+<a class="btn btn-lg btn-primary pull-right" [routerLink]="['/home/colaborador']">Cadastrar</a>
 <p *ngIf="!colaboradores">
     <em>Loading...</em>
 </p>
-
 <table class='table' *ngIf="colaboradores">
     <thead>
         <tr>

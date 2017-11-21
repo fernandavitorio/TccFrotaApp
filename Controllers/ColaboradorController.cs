@@ -39,7 +39,7 @@ namespace TccFrotaApp.Controllers
                 Nome = c.Nome,
                 Matricula = c.Matricula,
                 Funcao = c.Funcao.ToString(),
-                Email = c.Login == null ? c.Login.UserName : ""
+                Email = c.Login != null ? c.Login.UserName : ""
             });
         }
 
@@ -52,6 +52,15 @@ namespace TccFrotaApp.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            //verificamos se o colaborador já existe
+
+            if (_appDbContext.Colaboradores.Any(c => c.Matricula == model.Matricula))
+            {
+                 return BadRequest(Errors.AddErrorToModelState("colaborador_failure", "Colaborador com a matricula [" + model.Matricula + "] já está cadastrado", ModelState));
+      
+            }
+
 
             //Convertemos nosso viewmodel para a entidade do colaborador
             var colaborador = new Colaborador()
@@ -73,7 +82,7 @@ namespace TccFrotaApp.Controllers
             }
 
             //adiciona o objeto do contexto do banco e faz o comite das modificações para o banco de dados
-             _appDbContext.Colaboradores.Add(colaborador);
+            _appDbContext.Colaboradores.Add(colaborador);
             await _appDbContext.SaveChangesAsync();
 
             return new OkObjectResult("Colaborador criado");
@@ -93,7 +102,7 @@ namespace TccFrotaApp.Controllers
 
             if (colaborador == null)
             {
-                return NotFound("Colaborador não encontrado");
+                 return NotFound("Colaborador não encontrado");
             }
 
             //se o colaborador não for um coletor ele precisa de acesso ao sistema logo criamos uma credencia com a utilização do asp net core identity
@@ -114,13 +123,13 @@ namespace TccFrotaApp.Controllers
             }
 
             //atualiza o objeto do contexto do banco e faz o comite das modificações para o banco de dados
-             _appDbContext.Colaboradores.Update(colaborador);
+            _appDbContext.Colaboradores.Update(colaborador);
             await _appDbContext.SaveChangesAsync();
 
             return new OkObjectResult("Colaborador Atualizado");
         }
 
-          // DELETE api/colaborador/5
+        // DELETE api/colaborador/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -133,7 +142,7 @@ namespace TccFrotaApp.Controllers
             }
 
             //remove o objeto do contexto do banco e faz o comite das modificações para o banco de dados
-             _appDbContext.Colaboradores.Remove(colaborador);
+            _appDbContext.Colaboradores.Remove(colaborador);
             await _appDbContext.SaveChangesAsync();
 
             return new OkObjectResult("Colaborador Deletado");

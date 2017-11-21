@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map'
 import { BaseService } from '../../shared/BaseService';
 
 
+
 @Injectable()
 export class ColaboradorService extends BaseService {
 

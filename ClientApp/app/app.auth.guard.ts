@@ -9,11 +9,13 @@ export class AuthGuard implements CanActivate {
     constructor(private router: Router) { }
 
     canActivate() {
+
+
         if (localStorage.getItem('currentUser')) {
 
             let loginInfo: Login = JSON.parse(localStorage.getItem('currentUser') || '{}');
             // logged in so return true
-            return loginInfo.token ? true : false;
+            if( loginInfo.token) return true;
         }
 
         // not logged in so redirect to login page

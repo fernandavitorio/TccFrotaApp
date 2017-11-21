@@ -10,7 +10,7 @@ namespace TccFrotaApp.ViewModels
     {
         public int Id { get; set; }
         public DateTime DtAtualizacao { get; set; }
-        public object Information {get;set;}
+        public int AditionalInformation {get;set;}
         public string Setor { get; set; }
         public string Tipo { get; set; }
 
