@@ -11,6 +11,8 @@
             <th>Marca</th>
             <th>Modelo</th>
             <th>Placa</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -19,6 +21,16 @@
             <td>{{ veiculo.marca }}</td>
             <td>{{ veiculo.modelo }}</td>
             <td>{{ veiculo.placa }}</td>
+            <td>
+                <button (click)="edit(veiculo)" [disabled]="loading" class="btn btn-sm btn-info btn-block">
+                    <span class='glyphicon  glyphicon-pencil'></span>
+                </button>
+            </td>
+            <td>
+                <button (click)="delete(veiculo.id)" [disabled]="loading" class="btn btn-sm btn-info btn-block">
+                    <span class='glyphicon  glyphicon-trash'></span>
+                </button>
+            </td>
         </tr>
     </tbody>
 </table>

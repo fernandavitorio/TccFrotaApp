@@ -42,13 +42,13 @@ export class ColaboradoresComponent implements OnInit {
 
     onSucessDelete(response: any) {
         this.loading = false;
-        this.toastr.success('Colaborador deletado com sucesso', 'Ok');
+        this.toastr.success('Colaborador deletado com sucesso');
         this.updateTable();
     }
 
     onErrorDelete(error: any) {
         this.loading = false;
-        this.toastr.error(error, 'Erro');
+        this.toastr.error(error);
 
     }
 

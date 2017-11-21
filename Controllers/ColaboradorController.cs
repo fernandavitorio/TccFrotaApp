@@ -34,7 +34,7 @@ namespace TccFrotaApp.Controllers
         [HttpGet]
         public IEnumerable<ColaboradorViewModel> GetAll()
         {
-            return _appDbContext.Colaboradores.Include(c => c.Login).Select(c => new ColaboradorViewModel()
+            return _appDbContext.Colaboradores.Include(c => c.Login).OrderBy(a => a.Nome).Select(c => new ColaboradorViewModel()
             {
                 Id = c.Id,
                 Nome = c.Nome,
@@ -109,17 +109,24 @@ namespace TccFrotaApp.Controllers
 
             //se o colaborador não for um coletor ele precisa de acesso ao sistema logo criamos uma credencia com a utilização do asp net core identity
             //se a função foi alterada então precisamos verificar se precisa de uma credencial
-            if (colaborador.Funcao != TIPO_COLABORADOR.COLETOR && colaborador.Login == null)
+            if (colaborador.Funcao != TIPO_COLABORADOR.COLETOR)
             {
-                if (colaborador.Login == null)
+
+                var curLogin = await _appDbContext.Users.FirstOrDefaultAsync(a => a.UserName == model.Email);
+                //se não existe um login nós criamos
+                if (curLogin == null)
                 {
                     var login = new Login() { UserName = model.Email };
                     var result = await _userManager.CreateAsync(login, model.Senha);
                     if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
                     colaborador.LoginId = login.Id;
                 }
+                //se não, atualizamos o login atual
                 else
                 {
+                    colaborador.LoginId = curLogin.Id;
+                    colaborador.Login = curLogin;
+
                     //se o cabloco setou uma senha nova vamos remover a antiga e então adicionar a nova
                     if (model.Senha != EMPTY_PASSWORD)
                     {
@@ -136,7 +143,7 @@ namespace TccFrotaApp.Controllers
                 colaborador.Login = null;
             }
 
-//autualiza outros campos
+            //autualiza outros campos
             colaborador.Nome = model.Nome;
             colaborador.Funcao = Enum.Parse<TIPO_COLABORADOR>(model.Funcao);
 

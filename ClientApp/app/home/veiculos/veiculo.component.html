@@ -1,0 +1,40 @@
+<h1>{{pageH1}}</h1>
+<hr>
+<form name="form" class="form-employee" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
+
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !identificador.valid }">
+        <label for="identificador">Identificador</label>
+        <input [readonly]="isEditing" type="text" class="form-control" name="identificador" [(ngModel)]="model.identificador" #identificador="ngModel" required />
+        <div *ngIf="f.submitted && !identificador.valid" class="help-block">Informe o identificador</div>
+    </div>
+
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !marca.valid }">
+        <label for="marca">Marca</label>
+        <input type="text" class="form-control" name="marca" [(ngModel)]="model.marca" #marca="ngModel" required />
+        <div *ngIf="f.submitted && !marca.valid" class="help-block">Informe a marca</div>
+    </div>
+
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !modelo.valid }">
+        <label for="modelo">Modelo</label>
+        <input type="text" class="form-control" name="modelo" [(ngModel)]="model.modelo" #modelo="ngModel" required />
+        <div *ngIf="f.submitted && !modelo.valid" class="help-block">Informe o modelo</div>
+    </div>
+
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !placa.valid }">
+        <label for="placa">Placa</label>
+        <input type="text" class="form-control" name="placa" [(ngModel)]="model.placa" #placa="ngModel" required />
+        <div *ngIf="f.submitted && !placa.valid" class="help-block">Informe a placa</div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-5 btn-cointainer">
+            <button [disabled]="loading" class="btn btn-lg btn-default btn-block">Salvar</button>
+            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+            />
+        </div>
+        <div class="col-sm-offset-2 col-sm-5 btn-cointainer">
+            <a class="btn btn-lg btn-default btn-block" [routerLink]="['/home/veiculos']">Cancelar</a>
+        </div>
+    </div>
+   
+</form>
