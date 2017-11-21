@@ -1,6 +1,6 @@
 <h1>Colaboradores</h1>
 <hr>
-<a class="btn btn-lg btn-primary pull-right" [routerLink]="['/home/colaborador']">Cadastrar</a>
+<a class="btn btn-lg btn-default pull-right" [routerLink]="['/home/colaborador']">Cadastrar</a>
 <p *ngIf="!colaboradores">
     <em>Loading...</em>
 </p>
@@ -11,6 +11,8 @@
             <th>Matricula</th>
             <th>Funcao</th>
             <th>Email</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -19,6 +21,16 @@
             <td>{{ colaborador.matricula }}</td>
             <td>{{ colaborador.funcao }}</td>
             <td>{{ colaborador.email }}</td>
+            <td>
+                <button (click)="edit(colaborador)" [disabled]="loading" class="btn btn-sm btn-info btn-block">
+                    <span class='glyphicon  glyphicon-pencil'></span>
+                </button>
+            </td>
+            <td>
+                <button (click)="delete(colaborador.id)" [disabled]="loading" class="btn btn-sm btn-info btn-block">
+                    <span class='glyphicon  glyphicon-trash'></span>
+                </button>
+            </td>
         </tr>
     </tbody>
 </table>

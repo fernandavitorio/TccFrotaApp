@@ -18,6 +18,7 @@ namespace TccFrotaApp.Controllers
     [Route("api/[controller]")]
     public class ColaboradorController : Controller
     {
+        private static string EMPTY_PASSWORD = "PASSWORD";
         private readonly FrotaAppDbContext _appDbContext;
         private readonly UserManager<Login> _userManager;
         private readonly IMapper _mapper;
@@ -39,7 +40,8 @@ namespace TccFrotaApp.Controllers
                 Nome = c.Nome,
                 Matricula = c.Matricula,
                 Funcao = c.Funcao.ToString(),
-                Email = c.Login != null ? c.Login.UserName : ""
+                Email = c.Login != null ? c.Login.UserName : "",
+                Senha = EMPTY_PASSWORD
             });
         }
 
@@ -57,8 +59,8 @@ namespace TccFrotaApp.Controllers
 
             if (_appDbContext.Colaboradores.Any(c => c.Matricula == model.Matricula))
             {
-                 return BadRequest(Errors.AddErrorToModelState("colaborador_failure", "Colaborador com a matricula [" + model.Matricula + "] já está cadastrado", ModelState));
-      
+                return BadRequest(Errors.AddErrorToModelState("colaborador_failure", "Colaborador com a matricula [" + model.Matricula + "] já está cadastrado", ModelState));
+
             }
 
 
@@ -98,22 +100,34 @@ namespace TccFrotaApp.Controllers
             }
 
             //verificamos se o colaborador que vamos atualizar já está cadastrado
-            var colaborador = await _appDbContext.Colaboradores.FirstOrDefaultAsync(c => c.Id == id);
+            var colaborador = await _appDbContext.Colaboradores.Include(a => a.Login).FirstOrDefaultAsync(c => c.Id == id);
 
             if (colaborador == null)
             {
-                 return NotFound("Colaborador não encontrado");
+                return NotFound("Colaborador não encontrado");
             }
 
             //se o colaborador não for um coletor ele precisa de acesso ao sistema logo criamos uma credencia com a utilização do asp net core identity
             //se a função foi alterada então precisamos verificar se precisa de uma credencial
             if (colaborador.Funcao != TIPO_COLABORADOR.COLETOR && colaborador.Login == null)
             {
-                var login = _mapper.Map<Login>(model);
-                var result = await _userManager.CreateAsync(login, model.Senha);
-                if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-
-                colaborador.LoginId = login.Id;
+                if (colaborador.Login == null)
+                {
+                    var login = new Login() { UserName = model.Email };
+                    var result = await _userManager.CreateAsync(login, model.Senha);
+                    if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+                    colaborador.LoginId = login.Id;
+                }
+                else
+                {
+                    //se o cabloco setou uma senha nova vamos remover a antiga e então adicionar a nova
+                    if (model.Senha != EMPTY_PASSWORD)
+                    {
+                        await _userManager.RemovePasswordAsync(colaborador.Login);
+                        await _userManager.AddPasswordAsync(colaborador.Login, model.Senha);
+                    }
+                    await _userManager.SetUserNameAsync(colaborador.Login, model.Email);
+                }
             }
             else
             {
@@ -121,6 +135,10 @@ namespace TccFrotaApp.Controllers
                 colaborador.LoginId = null;
                 colaborador.Login = null;
             }
+
+//autualiza outros campos
+            colaborador.Nome = model.Nome;
+            colaborador.Funcao = Enum.Parse<TIPO_COLABORADOR>(model.Funcao);
 
             //atualiza o objeto do contexto do banco e faz o comite das modificações para o banco de dados
             _appDbContext.Colaboradores.Update(colaborador);

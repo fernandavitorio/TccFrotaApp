@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, ActivatedRoute, Router, Routes } from '@angular/router';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ToastModule} from 'ng2-toastr/ng2-toastr';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './home/navmenu/navmenu.component';
@@ -53,6 +55,8 @@ const appRoutes: Routes = [
         CommonModule,
         HttpModule,
         FormsModule,
+        BrowserAnimationsModule,
+        ToastModule.forRoot(),
         RouterModule.forRoot(appRoutes)
     ],
     providers: [

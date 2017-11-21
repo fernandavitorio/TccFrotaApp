@@ -37,8 +37,11 @@ export class ColaboradorService extends BaseService {
     }
 
     getAll(): Observable<Colaborador[]> {
-
         return this.http.get(this.baseUrl + 'api/colaborador').map(result => { return result.json() as Colaborador[]; });
+    }
 
+    delete(id: number) {
+        return this.http.delete(this.baseUrl + 'api/colaborador/' + id)
+            .map((response: Response) => { }).catch(this.handleError);
     }
 }

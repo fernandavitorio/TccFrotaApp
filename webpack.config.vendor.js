@@ -21,7 +21,10 @@ const nonTreeShakableModules = [
     'es6-shim',
     'event-source-polyfill',
     'jquery',
+    'ng2-toastr/bundles/ng2-toastr.min.css',
+    'ng2-toastr/bundles/ng2-toastr.min.js',
 ];
+
 const allModules = treeShakableModules.concat(nonTreeShakableModules);
 
 module.exports = (env) => {

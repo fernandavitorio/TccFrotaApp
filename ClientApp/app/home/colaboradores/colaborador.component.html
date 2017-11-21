@@ -1,4 +1,4 @@
-<h1>Cadastro de Colaborador</h1>
+<h1>{{pageH1}}</h1>
 <hr>
 <form name="form" class="form-employee" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
 
@@ -10,7 +10,7 @@
 
     <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !matricula.valid }">
         <label for="matricula">Matrícula</label>
-        <input type="number" class="form-control" name="matricula" [(ngModel)]="model.matricula" #matricula="ngModel" required />
+        <input [readonly]="isEditing" type="number" class="form-control" name="matricula" [(ngModel)]="model.matricula" #matricula="ngModel"  />
         <div *ngIf="f.submitted && !matricula.valid" class="help-block">Informe a matricula</div>
     </div>
 
@@ -38,13 +38,13 @@
 
     <div class="form-group row">
         <div class="col-sm-5 btn-cointainer">
-            <button [disabled]="loading" class="btn btn-lg btn-primary btn-block">Salvar</button>
+            <button [disabled]="loading" class="btn btn-lg btn-default btn-block">Salvar</button>
             <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
             />
         </div>
         <div class="col-sm-offset-2 col-sm-5 btn-cointainer">
-            <a class="btn btn-lg btn-primary btn-block" [routerLink]="['/home/colaboradores']">Cancelar</a>
+            <a class="btn btn-lg btn-default btn-block" [routerLink]="['/home/colaboradores']">Cancelar</a>
         </div>
     </div>
-    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+   
 </form>

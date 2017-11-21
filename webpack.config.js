@@ -41,7 +41,11 @@ module.exports = (env) => {
             new webpack.SourceMapDevToolPlugin({
                 filename: '[file].map', // Remove this line if you prefer inline source maps
                 moduleFilenameTemplate: path.relative(clientBundleOutputDir, '[resourcePath]') // Point sourcemap entries to the original file locations on disk
-            })
+            }),
+            new webpack.ContextReplacementPlugin(
+                /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+                path.join(__dirname, './ClientApp')
+            ),
         ] : [
             // Plugins that apply in production builds only
             new webpack.optimize.UglifyJsPlugin(),

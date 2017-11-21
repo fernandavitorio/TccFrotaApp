@@ -82,6 +82,10 @@ namespace TccFrotaApp.Controllers
                 return NotFound("Veiculo não encontrado");
             }
 
+            veiculo.Marca = model.Marca;
+            veiculo.Modelo = model.Modelo;
+            veiculo.Placa = model.Placa;
+
             //atualiza o objeto do contexto do banco e faz o comite das modificações para o banco de dados
             _dbContext.Veiculos.Update(veiculo);
             await _dbContext.SaveChangesAsync();
