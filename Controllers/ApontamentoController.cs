@@ -131,7 +131,7 @@ namespace TccFrotaApp.Controllers
             }
 
             //primeiro buscamos pelo apontamento inicial
-            Apontamento apontamentoInicial = _dbContext.Apontamentos.OrderBy(a => a.DtAtualizacao).Include(a => a.Veiculo).LastOrDefault(a => a.VeiculoId == model.VeiculoId);
+            Apontamento apontamentoInicial = _dbContext.Apontamentos.OrderBy(a => a.DtAtualizacao).Include(a => a.Veiculo).Include(a => a.Apontamentos).LastOrDefault(a => a.VeiculoId == model.VeiculoId);
 
             //de acordo com o tipo de atividade precisamos fazer uma validação especifica sobre o objeto a ser gravado no banco
             var tipoApontamento = Enum.Parse<TIPO_APONTAMENTO>(model.Tipo);
@@ -139,11 +139,15 @@ namespace TccFrotaApp.Controllers
             //somente apontamentos iniciais podem ter referencia nula para apontamento pai, 
             if (apontamentoInicial == null && tipoApontamento != TIPO_APONTAMENTO.INICIAL)
             {
-                return BadRequest(Errors.AddErrorToModelState("apontamento_failure", "Não existe uma atividade inicial em aberta para o veículo " + apontamentoInicial.Veiculo.Identificador, ModelState));
+                return BadRequest(Errors.AddErrorToModelState("apontamento_failure", "Não existe uma atividade inicial em aberta para o veículo ", ModelState));
             }
 
-            //verifica se já existe um filho do apontamento inicial com o mesmo tipo do apontamento a ser criado.
-            if (apontamentoInicial != null && apontamentoInicial.Apontamentos.Any(a => a.Tipo == tipoApontamento))
+            //verifica se já existe um apontamento inicial em aberto, no caso sem o apontamento de km final 
+            //ou então um filho do apontamento inicial com o mesmo tipo do apontamento a ser criado.
+            if (apontamentoInicial != null && 
+                ((tipoApontamento == TIPO_APONTAMENTO.INICIAL && !apontamentoInicial.Apontamentos.Any(a => a.Tipo == TIPO_APONTAMENTO.KM_FINAL))
+                 ||
+                  apontamentoInicial.Apontamentos.Any(a => a.Tipo == tipoApontamento)))
             {
                 return BadRequest(Errors.AddErrorToModelState("apontamento_failure", "Já existe uma atividade [" + tipoApontamento.ToString() + "] em aberta para o veículo " + apontamentoInicial.Veiculo.Identificador, ModelState));
             }
