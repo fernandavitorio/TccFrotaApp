@@ -148,18 +148,29 @@ namespace TccFrotaApp.Controllers
                 return BadRequest(Errors.AddErrorToModelState("apontamento_failure", "Já existe uma atividade [" + tipoApontamento.ToString() + "] em aberta para o veículo " + apontamentoInicial.Veiculo.Identificador, ModelState));
             }
 
+            //se não for um apontamento inicial devemos copiar os dados do pai para o filho
+            if (apontamentoInicial != null && tipoApontamento != TIPO_APONTAMENTO.INICIAL)
+            {
+                model.Setor = apontamentoInicial.Setor.ToString();
+                model.VeiculoId = apontamentoInicial.VeiculoId;
+                model.MotoristaId = apontamentoInicial.MotoristaId;
+                model.Coletor1Id = apontamentoInicial.Coletor1Id;
+                model.Coletor2Id = apontamentoInicial.Coletor2Id;
+                model.Coletor3Id = apontamentoInicial.Coletor3Id;
+            }
+
             //Convertemos nosso viewmodel para a entidade do colaborador
             var apontamento = new Apontamento()
             {
-                DtAtualizacao = model.DtAtualizacao,
+                DtAtualizacao = DateTime.Now,
                 AditionalInformation = model.AditionalInformation,
                 Setor = Enum.Parse<SETOR>(model.Setor),
                 Tipo = tipoApontamento,
                 VeiculoId = model.VeiculoId,
                 MotoristaId = model.MotoristaId,
                 Coletor1Id = model.Coletor1Id,
-                Coletor2Id = model.Coletor2Id,
-                Coletor3Id = model.Coletor3Id,
+                Coletor2Id = model.Coletor2Id <= 0 ? null : (int?)model.Coletor2Id,
+                Coletor3Id = model.Coletor3Id <= 0 ? null : (int?)model.Coletor3Id,
                 ApontamentoInicialId = tipoApontamento == TIPO_APONTAMENTO.INICIAL ? null : (int?)apontamentoInicial.Id
             };
 

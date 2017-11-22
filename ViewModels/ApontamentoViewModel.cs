@@ -24,10 +24,10 @@ namespace TccFrotaApp.ViewModels
         public int Coletor1Id { get; set; }
         public string Coletor1Nome { get; set; }
 
-        public int Coletor2Id { get; set; }
+        public int? Coletor2Id { get; set; }
         public string Coletor2Nome { get; set; }
 
-        public int Coletor3Id { get; set; }
+        public int? Coletor3Id { get; set; }
         public string Coletor3Nome { get; set; }
 
         public int? ApontamentoInicialId { get; set; }

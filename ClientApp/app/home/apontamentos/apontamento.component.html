@@ -2,39 +2,196 @@
 <hr>
 <form name="form" class="form-employee" (ngSubmit)="f.form.valid && save()" #f="ngForm" novalidate>
 
-    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !identificador.valid }">
-        <label for="identificador">Identificador</label>
-        <input [readonly]="isEditing" type="text" class="form-control" name="identificador" [(ngModel)]="model.identificador" #identificador="ngModel" required />
-        <div *ngIf="f.submitted && !identificador.valid" class="help-block">Informe o identificador</div>
+    <fieldset class="form-group row">
+
+        <div class="col-xs-6">
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="tipo" [(ngModel)]="model.tipo" value="INICIAL" checked> Apontamento Inicial
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="tipo" [(ngModel)]="model.tipo" value="KM_INICIAL" checked> KM Inicial
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="tipo" [(ngModel)]="model.tipo" value="HORIMETRO_INICIAL"> Horímetro Inicial
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="tipo" [(ngModel)]="model.tipo" value="SAIDA_GARAGEM"> Saída de Garagem
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="tipo" [(ngModel)]="model.tipo" value="INICIO_COLETA"> Início de Coleta
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="tipo" [(ngModel)]="model.tipo" value="FIM_COLETA"> Fim de Coleta
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="tipo" [(ngModel)]="model.tipo" value="INICIO_REFEICAO"> Início de Refeição
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="tipo" [(ngModel)]="model.tipo" value="FIM_REFEICAO"> Fim de Refeição
+                </label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="tipo" [(ngModel)]="model.tipo" value="BALANCA"> Balança
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="tipo" [(ngModel)]="model.tipo" value="INICIO_DESCARGA"> Início de Descarga
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="tipo" [(ngModel)]="model.tipo" value="FIM_DESCARGA"> Fim de Descarga
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="tipo" [(ngModel)]="model.tipo" value="TICKET_BALANCA"> Ticket Balança
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="tipo" [(ngModel)]="model.tipo" value="PESO_LIQUIDO"> Peso Líquido
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="tipo" [(ngModel)]="model.tipo" value="HORIMETRO_FINAL"> Horímetro Final
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input type="radio" class="form-check-input" name="tipo" [(ngModel)]="model.tipo" value="KM_FINAL"> KM Final
+                </label>
+            </div>
+        </div>
+    </fieldset>
+
+     <!-- VEICULO SEMPRE DEVE SER INFORMADO NOS APONTAMENTOS -->
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !veiculoId.valid }">
+        <label for="funcao">Veiculo</label>
+        <select class="form-control" name="veiculoId" [(ngModel)]="model.veiculoId" #veiculoId="ngModel" required>
+            <option *ngFor="let veiculo of veiculos" [ngValue]="veiculo.id">{{ veiculo.placa}} - {{ veiculo.identificador}}</option>
+        </select>
+        <div *ngIf="f.submitted && !veiculoId.valid" class="help-block">Informe o veiculo utilizado</div>
     </div>
 
-    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !marca.valid }">
-        <label for="marca">Marca</label>
-        <input type="text" class="form-control" name="marca" [(ngModel)]="model.marca" #marca="ngModel" required />
-        <div *ngIf="f.submitted && !marca.valid" class="help-block">Informe a marca</div>
+    <!-- Controles que serão exibidos com o apontamento do tipo Inicial -->
+    <div *ngIf="model?.tipo == 'INICIAL'" class="form-group" [ngClass]="{ 'has-error': f.submitted && !setor.valid }">
+        <label for="funcao">Setor</label>
+        <select class="form-control" name="setor" [(ngModel)]="model.setor" #setor="ngModel" [required]="model?.tipo == 'INICIAL'">
+            <option value="BOM_RETIRO">01 - BOM RETIRO</option>
+            <option value="GUANABARA">02 - GUANABARA</option>
+            <option value="FATIMA">03 - FÁTIMA</option>
+        </select>
+        <div *ngIf="f.submitted && !setor.valid" class="help-block">Informe o setor de coleta</div>
     </div>
 
-    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !modelo.valid }">
-        <label for="modelo">Modelo</label>
-        <input type="text" class="form-control" name="modelo" [(ngModel)]="model.modelo" #modelo="ngModel" required />
-        <div *ngIf="f.submitted && !modelo.valid" class="help-block">Informe o modelo</div>
+    <div *ngIf="model?.tipo == 'INICIAL'" class="form-group" [ngClass]="{ 'has-error': f.submitted && !motoristaId.valid }">
+        <label for="funcao">Motorista</label>
+        <select class="form-control" name="motoristaId" [(ngModel)]="model.motoristaId" #motoristaId="ngModel" [required]="model?.tipo == 'INICIAL'">
+            <option *ngFor="let motorista of motoristas" [ngValue]="motorista.id">{{ motorista.matricula}} - {{ motorista.nome}}</option>
+        </select>
+        <div *ngIf="f.submitted && !motoristaId.valid" class="help-block">Informe o motorista da coleta</div>
     </div>
 
-    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !placa.valid }">
-        <label for="placa">Placa</label>
-        <input type="text" class="form-control" name="placa" [(ngModel)]="model.placa" #placa="ngModel" required />
-        <div *ngIf="f.submitted && !placa.valid" class="help-block">Informe a placa</div>
+    <div *ngIf="model?.tipo == 'INICIAL'" class="form-group" [ngClass]="{ 'has-error': f.submitted && !coletor1Id.valid }">
+        <label for="funcao">Coletor 1</label>
+        <select class="form-control" name="coletor1Id" [(ngModel)]="model.coletor1Id" #coletor1Id="ngModel" [required]="model?.tipo == 'INICIAL'">
+            <option *ngFor="let coletor of coletores" [ngValue]="coletor.id">{{ coletor.matricula}} - {{ coletor.nome}}</option>
+        </select>
+        <div *ngIf="f.submitted && !coletor1Id.valid" class="help-block">Informe ao menos um coletor para a coleta</div>
+    </div>
+
+    <div *ngIf="model?.tipo == 'INICIAL'" class="form-group">
+        <label for="funcao">Coletor 2</label>
+        <select class="form-control" name="coletor2Id" [(ngModel)]="model.coletor2Id" #coletor2Id="ngModel">
+            <option *ngFor="let coletor of coletores" [ngValue]="coletor.id">{{ coletor.matricula}} - {{ coletor.nome}}</option>
+        </select>
+    </div>
+
+    <div *ngIf="model?.tipo == 'INICIAL'" class="form-group">
+        <label for="funcao">Coletor 3</label>
+        <select class="form-control" name="coletor3Id" [(ngModel)]="model.coletor3Id" #coletor3Id="ngModel">
+            <option *ngFor="let coletor of coletores" [ngValue]="coletor.id">{{ coletor.matricula}} - {{ coletor.nome}}</option>
+        </select>
+    </div>
+
+    <!-- Controles que serão exibidos com o apontamento do tipo KM_INICIAL -->
+    <div *ngIf="model?.tipo == 'KM_INICIAL'" class="form-group" [ngClass]="{ 'has-error': f.submitted && !aditionalInformation.valid }">
+        <label for="aditionalInformation">Km Inicial</label>
+        <input type="number" class="form-control" name="aditionalInformation" [(ngModel)]="model.aditionalInformation" #aditionalInformation="ngModel"
+            [required]="model?.tipo == 'KM_INICIAL'" />
+        <div *ngIf="f.submitted && !aditionalInformation.valid" class="help-block">Informe a Km inicial</div>
+    </div>
+
+    <!-- Controles que serão exibidos com o apontamento do tipo HORIMETRO_INICIAL -->
+    <div *ngIf="model?.tipo == 'HORIMETRO_INICIAL'" class="form-group" [ngClass]="{ 'has-error': f.submitted && !aditionalInformation.valid }">
+        <label for="aditionalInformation">Horímetro Inicial</label>
+        <input type="number" class="form-control" name="aditionalInformation" [(ngModel)]="model.aditionalInformation" #aditionalInformation="ngModel"
+            [required]="model?.tipo == 'HORIMETRO_INICIAL'" />
+        <div *ngIf="f.submitted && !aditionalInformation.valid" class="help-block">Informe o horímetro inicial</div>
+    </div>
+
+    <!-- Controles que serão exibidos com o apontamento do tipo TICKET_BALANCA -->
+    <div *ngIf="model?.tipo == 'TICKET_BALANCA'" class="form-group" [ngClass]="{ 'has-error': f.submitted && !aditionalInformation.valid }">
+        <label for="aditionalInformation">Nº do Ticket</label>
+        <input type="number" class="form-control" name="aditionalInformation" [(ngModel)]="model.aditionalInformation" #aditionalInformation="ngModel"
+            [required]="model?.tipo == 'TICKET_BALANCA'" />
+        <div *ngIf="f.submitted && !aditionalInformation.valid" class="help-block">Informe o nº do ticket</div>
+    </div>
+
+    <!-- Controles que serão exibidos com o apontamento do tipo PESO_LIQUIDO -->
+    <div *ngIf="model?.tipo == 'PESO_LIQUIDO'" class="form-group" [ngClass]="{ 'has-error': f.submitted && !aditionalInformation.valid }">
+        <label for="aditionalInformation">Peso Líquido [t]</label>
+        <input type="number" class="form-control" name="aditionalInformation" [(ngModel)]="model.aditionalInformation" #aditionalInformation="ngModel"
+            [required]="model?.tipo == 'PESO_LIQUIDO'" />
+        <div *ngIf="f.submitted && !aditionalInformation.valid" class="help-block">Informe o peso líquido</div>
+    </div>
+
+    <!-- Controles que serão exibidos com o apontamento do tipo HORIMETRO_FINAL -->
+    <div *ngIf="model?.tipo == 'HORIMETRO_FINAL'" class="form-group" [ngClass]="{ 'has-error': f.submitted && !aditionalInformation.valid }">
+        <label for="aditionalInformation">Horímetro Final</label>
+        <input type="number" class="form-control" name="aditionalInformation" [(ngModel)]="model.aditionalInformation" #aditionalInformation="ngModel"
+            [required]="model?.tipo == 'HORIMETRO_FINAL'" />
+        <div *ngIf="f.submitted && !aditionalInformation.valid" class="help-block">Informe o horímetro final</div>
+    </div>
+
+    <!-- Controles que serão exibidos com o apontamento do tipo KM_FINAL -->
+    <div *ngIf="model?.tipo == 'KM_FINAL'" class="form-group" [ngClass]="{ 'has-error': f.submitted && !aditionalInformation.valid }">
+        <label for="aditionalInformation">Km Final</label>
+        <input type="number" class="form-control" name="aditionalInformation" [(ngModel)]="model.aditionalInformation" #aditionalInformation="ngModel"
+            [required]="model?.tipo == 'KM_FINAL'" />
+        <div *ngIf="f.submitted && !aditionalInformation.valid" class="help-block">Informe o Km final</div>
     </div>
 
     <div class="form-group row">
         <div class="col-sm-5 btn-cointainer">
-            <button [disabled]="loading" class="btn btn-lg btn-default btn-block">Salvar</button>
+            <button [disabled]="loading" class="btn btn-lg btn-default btn-block">Atualizar Atividade</button>
             <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
             />
         </div>
         <div class="col-sm-offset-2 col-sm-5 btn-cointainer">
-            <a class="btn btn-lg btn-default btn-block" [routerLink]="['/home/veiculos']">Cancelar</a>
+            <a class="btn btn-lg btn-default btn-block" [routerLink]="['/home/apontamentos']">Cancelar</a>
         </div>
     </div>
-   
+
 </form>

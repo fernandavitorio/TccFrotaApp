@@ -31,6 +31,7 @@ export class ApontamentoComponent implements OnInit {
         private veiculoService: VeiculoService) {
 
         this.toastr.setRootViewContainerRef(vcr);
+        this.model.tipo= "INICIAL"
     }
 
     ngOnInit() {

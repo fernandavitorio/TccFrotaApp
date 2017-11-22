@@ -27,10 +27,10 @@ namespace TccFrotaApp.Models
         public int Coletor1Id { get; set; }
         public Colaborador Coletor1 { get; set; }
 
-        public int Coletor2Id { get; set; }
+        public int? Coletor2Id { get; set; }
         public Colaborador Coletor2 { get; set; }
 
-        public int Coletor3Id { get; set; }
+        public int? Coletor3Id { get; set; }
         public Colaborador Coletor3 { get; set; }
 
         public int? ApontamentoInicialId { get; set; }

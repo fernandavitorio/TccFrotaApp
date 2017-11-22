@@ -5,7 +5,6 @@ import 'rxjs/add/operator/map'
 import { BaseService } from '../../shared/BaseService';
 
 
-
 @Injectable()
 export class ColaboradorService extends BaseService {
 
@@ -40,8 +39,9 @@ export class ColaboradorService extends BaseService {
         return this.http.get(this.baseUrl + 'api/colaborador').map(result => { return result.json() as Colaborador[]; });
     }
 
-    getByType(funcao: string): Observable<Colaborador[]> {
-        return this.http.get(this.baseUrl + 'api/colaborador/getByType/'+funcao).map(result => { return result.json() as Colaborador[]; });
+    getByType(funcao: string): Observable<Colaborador[]> {  
+
+        return this.http.get(this.baseUrl + 'api/colaborador/getByType?funcao='+funcao ).map(result => { return result.json() as Colaborador[]; });
     }
 
     delete(id: number) {

@@ -11,9 +11,10 @@ using TccFrotaApp.Data;
 namespace TccFrotaApp.Migrations
 {
     [DbContext(typeof(FrotaAppDbContext))]
-    partial class FrotaAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171122200433_initialv4")]
+    partial class initialv4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
