@@ -12,11 +12,11 @@ using TccFrotaApp.ViewModels;
 namespace TccFrotaApp.Controllers
 {
     [Route("api/[controller]")]
-    public class ApontamentosController : Controller
+    public class ApontamentoController : Controller
     {
 
         private readonly FrotaAppDbContext _dbContext;
-        public ApontamentosController(FrotaAppDbContext dbContext)
+        public ApontamentoController(FrotaAppDbContext dbContext)
         {
 
             _dbContext = dbContext;
@@ -33,6 +33,7 @@ namespace TccFrotaApp.Controllers
             .Include(a => a.Coletor1)
             .Include(a => a.Coletor2)
             .Include(a => a.Coletor3)
+            .OrderBy(a => a.DtAtualizacao)
             .Select(a => new ApontamentoViewModel()
             {
                 Id = a.Id,
@@ -65,6 +66,7 @@ namespace TccFrotaApp.Controllers
             .Include(a => a.Coletor1)
             .Include(a => a.Coletor2)
             .Include(a => a.Coletor3)
+            .OrderBy(a => a.DtAtualizacao)
             .Select(a => new ApontamentoViewModel()
             {
                 Id = a.Id,
@@ -97,6 +99,7 @@ namespace TccFrotaApp.Controllers
             .Include(a => a.Coletor1)
             .Include(a => a.Coletor2)
             .Include(a => a.Coletor3)
+            .OrderBy(a => a.DtAtualizacao)
             .Select(a => new ApontamentoViewModel()
             {
                 Id = a.Id,

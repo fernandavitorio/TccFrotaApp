@@ -45,6 +45,21 @@ namespace TccFrotaApp.Controllers
             });
         }
 
+        // GET api/colaborador
+       [HttpGet("[action]")]
+        public IEnumerable<ColaboradorViewModel> GetByType(TIPO_COLABORADOR funcao)
+        {
+            return _appDbContext.Colaboradores.Include(c => c.Login).OrderBy(a => a.Nome).Where(a => a.Funcao == funcao).Select(c => new ColaboradorViewModel()
+            {
+                Id = c.Id,
+                Nome = c.Nome,
+                Matricula = c.Matricula,
+                Funcao = c.Funcao.ToString(),
+                Email = c.Login != null ? c.Login.UserName : "",
+                Senha = EMPTY_PASSWORD
+            });
+        }
+
 
         // POST api/colaborador
         [HttpPost]

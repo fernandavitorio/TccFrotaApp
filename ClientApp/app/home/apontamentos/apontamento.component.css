@@ -1,0 +1,15 @@
+.form-employee {
+    max-width: 1000px;
+    padding: 15px;
+    margin: 0 auto;
+  }
+  
+  .form-employee .form-control {
+    
+    height: auto;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+  }
+  

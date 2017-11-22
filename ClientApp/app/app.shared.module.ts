@@ -21,6 +21,8 @@ import { ColaboradorComponent } from './home/colaboradores/colaborador.component
 import { ColaboradorService } from './home/colaboradores/colaborador.service';
 import { VeiculoComponent } from './home/veiculos/veiculo.component';
 import { VeiculoService } from './home/veiculos/veiculo.service';
+import { ApontamentoComponent } from './home/apontamentos/apontamento.component';
+import { ApontamentoService } from './home/apontamentos/apontamento.service';
 
 
 const appRoutes: Routes = [
@@ -34,6 +36,7 @@ const appRoutes: Routes = [
         children: [
             { path: '', redirectTo: 'apontamentos', pathMatch: 'full' },
             { path: 'apontamentos', component: ApontamentosComponent, data: { title: 'Apontamentos' } },
+            { path: 'apontamento', component: ApontamentoComponent, data: { title: 'Apontamento' } },
             { path: 'colaboradores', component: ColaboradoresComponent,  data: { title: 'Colaboradores' } },
             { path: 'colaborador', component: ColaboradorComponent,  data: { title: 'Colaborador' } },
             { path: 'veiculos', component: VeiculosComponent,  data: { title: 'Veiculos' } },
@@ -52,7 +55,8 @@ const appRoutes: Routes = [
         LoginComponent,
         ApontamentosComponent,
         ColaboradorComponent,
-        VeiculoComponent
+        VeiculoComponent,
+        ApontamentoComponent
     ],
     imports: [
         BrowserModule,
@@ -69,6 +73,7 @@ const appRoutes: Routes = [
         LoginService,
         ColaboradorService,
         VeiculoService,
+        ApontamentoService,
         SelectivePreloadingStrategy
     ],
 })

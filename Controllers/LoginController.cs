@@ -55,11 +55,14 @@ namespace TccFrotaApp.Controllers
                 return BadRequest(Errors.AddErrorToModelState("login_failure", "Usuário ou senha inválidos", ModelState));
             }
 
+            var colaboratorInfo = (from a in _dbContext.Colaboradores where a.Login != null && a.Login.Email == credentials.UserName select a).FirstOrDefault();
+
             // Serialize and return the response
             var response = new
             {
                 id = identity.Claims.Single(c => c.Type == "id").Value,
-                name = (from a in _dbContext.Colaboradores where a.Login != null && a.Login.Email == credentials.UserName select a.Nome).FirstOrDefault(),
+                name = colaboratorInfo?.Nome,
+                colaborator = colaboratorInfo,
                 token = await _jwtFactory.GenerateEncodedToken(credentials.UserName, identity),
                 expiresIn = (int)_jwtOptions.ValidFor.TotalSeconds
             };
