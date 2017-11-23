@@ -5,7 +5,7 @@
 <p *ngIf="!apontamentosPai">
     <em>Loading...</em>
 </p>
-<table class='table' *ngIf="apontamentosPai">
+<table class='table table-hover' *ngIf="apontamentosPai">
     <thead>
         <tr>
             <th>Data</th>
@@ -15,17 +15,53 @@
             <th>Coletor 1</th>
             <th>Coletor 2</th>
             <th>Coletor 3</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let apontamento of apontamentosPai">
-            <td>{{ apontamento.dtAtualizacao | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
-            <td>{{ apontamento.veiculoPlaca}} - {{ apontamento.veiculoIdentificador}}</td>
-            <td>{{ apontamento.setor }}</td>
-            <td>{{ apontamento.motoristaNome }}</td>
-            <td>{{ apontamento.coletor1Nome }}</td>
-            <td>{{ apontamento.coletor2Nome }}</td>
-            <td>{{ apontamento.coletor3Nome }}</td>
-        </tr>
+        <ng-template ngFor let-apontamento [ngForOf]="apontamentosPai" let-i="index">
+            <tr [ngClass]="{ 'em-aberto': apontamento.emAberto }">
+                <td>{{ apontamento.dtAtualizacao | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
+                <td>{{ apontamento.veiculoPlaca}} - {{ apontamento.veiculoIdentificador}}</td>
+                <td>{{ apontamento.setor }}</td>
+                <td>{{ apontamento.motoristaNome }}</td>
+                <td>{{ apontamento.coletor1Nome }}</td>
+                <td>{{ apontamento.coletor2Nome }}</td>
+                <td>{{ apontamento.coletor3Nome }}</td>
+                <td>
+                    <button class="btn btn-sm btn-info" (click)="refreshDetail(apontamento)" data-toggle="collapse" [attr.data-target]="'#' + apontamento.id">
+                        <span class='glyphicon  glyphicon-search'></span>
+                    </button>
+                </td>
+            </tr>
+            <tr class="master-detail">
+
+                <td colspan="8">
+                    <div [attr.id]="apontamento.id" class="collapse">
+
+                        <h4>Apontamento Detalhado</h4>
+                        <p *ngIf="!apontamento.filhos">
+                            <em>Loading...</em>
+                        </p>
+                        <table class='table table-hover' *ngIf="apontamento.filhos">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Tipo</th>
+                                    <th>Informação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let aspontamentoFilho of apontamento.filhos">
+                                    <td>{{ aspontamentoFilho.dtAtualizacao | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
+                                    <td>{{ aspontamentoFilho.tipo }}</td>
+                                    <td>{{ aspontamentoFilho.aditionalInformation }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
     </tbody>
 </table>

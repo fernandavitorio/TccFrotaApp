@@ -16,4 +16,6 @@ interface Apontamento {
     coletor3Id: number;
     coletor3Nome: number;
     apontamentoInicialId: number;
+    emAberto: boolean;
+    filhos: Apontamento[];
 }

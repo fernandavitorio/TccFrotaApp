@@ -1,4 +1,15 @@
-.export-button
-{
+.export-button {
     margin-right: 5px;
+}
+
+.em-aberto {
+    background-color: lightgreen;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.table-hover>tbody>tr.master-detail:hover {
+    background-color: #ffffff;
 }

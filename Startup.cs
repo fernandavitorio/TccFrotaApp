@@ -18,6 +18,8 @@ using AutoMapper;
 using TccFrotaApp.Helpers;
 using TccFrotaApp.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using AspNetCoreCsvImportExport.Formatters;
+using Microsoft.Net.Http.Headers;
 
 namespace TccFrotaApp
 {
@@ -93,7 +95,15 @@ namespace TccFrotaApp
                 .AddEntityFrameworkStores<FrotaAppDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            var csvFormatterOptions = new CsvFormatterOptions();
+            csvFormatterOptions.CsvDelimiter = "|";
+
+            services.AddMvc(options =>
+            {
+                options.OutputFormatters.Add(new CsvOutputFormatter(csvFormatterOptions));
+                options.FormatterMappings.SetMediaTypeMappingForFormat("csv", MediaTypeHeaderValue.Parse("text/csv"));
+
+            }).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddAutoMapper();
 
         }

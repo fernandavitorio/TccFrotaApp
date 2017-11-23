@@ -24,7 +24,7 @@ namespace TccFrotaApp.Controllers
         }
 
         // GET api/apontamento/GetAll
-        [HttpGet("[action]")]
+        [HttpGet]
         public IEnumerable<ApontamentoViewModel> GetAll()
         {
             return _dbContext.Apontamentos
@@ -55,6 +55,45 @@ namespace TccFrotaApp.Controllers
             });
         }
 
+        [HttpGet("[action]")]
+        [Route("apontamentos.csv")]
+        [Produces("text/csv")]
+        public IActionResult GetAllAsCsv()
+        {
+            var apontamentosToExport = _dbContext.Apontamentos
+          .Include(a => a.Veiculo)
+          .Include(a => a.Motorista)
+          .Include(a => a.Coletor1)
+          .Include(a => a.Coletor2)
+          .Include(a => a.Coletor3)
+          .OrderBy(a => a.DtAtualizacao)
+          .Select(a => new
+          {
+              Id = a.Id,
+              DtAtualizacao = a.DtAtualizacao,
+              Setor = a.Setor.ToString(),
+              Tipo = a.Tipo.ToString(),
+              AditionalInformation = a.AditionalInformation,
+              VeiculoId = a.VeiculoId,
+              VeiculoIdentificador = a.Veiculo != null ? a.Veiculo.Identificador : "",
+              VeiculoPlaca = a.Veiculo != null ? a.Veiculo.Placa : "",
+              MotoristaId = a.MotoristaId,
+              MotoristaNome = a.Motorista != null ? a.Motorista.Nome : "",
+              MotoristaMatricula = a.Motorista != null ? a.Motorista.Matricula : 0,
+              Coletor1Id = a.Coletor1Id,
+              Coletor1Nome = a.Coletor1 != null ? a.Coletor1.Nome : "",
+              Coletor1Matricula = a.Coletor1 != null ? a.Coletor1.Matricula : 0,
+              Coletor2Id = a.Coletor2Id,
+              Coletor2Nome = a.Coletor2 != null ? a.Coletor2.Nome : "",
+              Coletor2Matricula = a.Coletor2 != null ? a.Coletor2.Matricula : 0,
+              Coletor3Id = a.Coletor3Id,
+              Coletor3Nome = a.Coletor3 != null ? a.Coletor3.Nome : "",
+              Coletor3Matricula = a.Coletor3 != null ? a.Coletor3.Matricula : 0,
+          }).ToList();
+
+            return Ok(apontamentosToExport);
+        }
+
         // GET api/apontamento/GetAllParrents
         [HttpGet("[action]")]
         public IEnumerable<ApontamentoViewModel> GetAllParrents()
@@ -66,7 +105,8 @@ namespace TccFrotaApp.Controllers
             .Include(a => a.Coletor1)
             .Include(a => a.Coletor2)
             .Include(a => a.Coletor3)
-            .OrderBy(a => a.DtAtualizacao)
+            .Include(a => a.Apontamentos)
+            .OrderByDescending(a => a.DtAtualizacao)
             .Select(a => new ApontamentoViewModel()
             {
                 Id = a.Id,
@@ -85,6 +125,7 @@ namespace TccFrotaApp.Controllers
                 Coletor2Nome = a.Coletor2.Nome,
                 Coletor3Id = a.Coletor3Id,
                 Coletor3Nome = a.Coletor3.Nome,
+                EmAberto = !a.Apontamentos.Any(b => b.Tipo == TIPO_APONTAMENTO.KM_FINAL)
             });
         }
 
@@ -131,20 +172,24 @@ namespace TccFrotaApp.Controllers
             }
 
             //primeiro buscamos pelo apontamento inicial
-            Apontamento apontamentoInicial = _dbContext.Apontamentos.OrderBy(a => a.DtAtualizacao).Include(a => a.Veiculo).Include(a => a.Apontamentos).LastOrDefault(a => a.VeiculoId == model.VeiculoId);
+            Apontamento apontamentoInicial = _dbContext.Apontamentos
+            .OrderBy(a => a.DtAtualizacao)
+            .Include(a => a.Veiculo)
+            .Include(a => a.Apontamentos)
+            .LastOrDefault(a => a.Tipo == TIPO_APONTAMENTO.INICIAL && a.VeiculoId == model.VeiculoId);
 
             //de acordo com o tipo de atividade precisamos fazer uma validação especifica sobre o objeto a ser gravado no banco
             var tipoApontamento = Enum.Parse<TIPO_APONTAMENTO>(model.Tipo);
 
             //somente apontamentos iniciais podem ter referencia nula para apontamento pai, 
-            if (apontamentoInicial == null && tipoApontamento != TIPO_APONTAMENTO.INICIAL)
+            if ((apontamentoInicial == null || apontamentoInicial.Apontamentos.Any(a => a.Tipo == TIPO_APONTAMENTO.KM_FINAL)) && tipoApontamento != TIPO_APONTAMENTO.INICIAL)
             {
                 return BadRequest(Errors.AddErrorToModelState("apontamento_failure", "Não existe uma atividade inicial em aberta para o veículo ", ModelState));
             }
 
             //verifica se já existe um apontamento inicial em aberto, no caso sem o apontamento de km final 
             //ou então um filho do apontamento inicial com o mesmo tipo do apontamento a ser criado.
-            if (apontamentoInicial != null && 
+            if (apontamentoInicial != null &&
                 ((tipoApontamento == TIPO_APONTAMENTO.INICIAL && !apontamentoInicial.Apontamentos.Any(a => a.Tipo == TIPO_APONTAMENTO.KM_FINAL))
                  ||
                   apontamentoInicial.Apontamentos.Any(a => a.Tipo == tipoApontamento)))

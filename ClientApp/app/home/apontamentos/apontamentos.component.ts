@@ -2,6 +2,10 @@ import { Component, ViewContainerRef } from '@angular/core';
 import { ApontamentoService } from './apontamento.service';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
+import { Response } from '@angular/http';
+import 'rxjs/Rx' ;
+import * as FileSaver from 'file-saver'; 
+
 
 @Component({
     selector: 'apontamentos',
@@ -11,7 +15,7 @@ import { ToastsManager } from 'ng2-toastr';
 export class ApontamentosComponent {
     public apontamentosPai: Apontamento[];
     public loading: boolean = false;
-
+    
     constructor(
         private router: Router,
         public toastr: ToastsManager,
@@ -32,7 +36,24 @@ export class ApontamentosComponent {
     }
 
     export() {
+        this.apontamentoService.getAllAsCsv().subscribe((result) => 
+        {         
+            this.downloadFile(result);
+        });
+    }
 
+    downloadFile(data: Response){
+        var blob = new Blob([data.text()], { type: 'text/csv' });
+        let filename = 'apontamentos.csv';
+        FileSaver.saveAs(blob, filename);
+      }
+
+    refreshDetail(model: Apontamento) {
+       
+        this.apontamentoService.getAllChilds(model.id).subscribe((result) => 
+        {         
+            model.filhos = result;
+        });
     }
 
 }
