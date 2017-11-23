@@ -12,7 +12,6 @@
             <th>Funcao</th>
             <th>Email</th>
             <th></th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -22,12 +21,10 @@
             <td>{{ colaborador.funcao }}</td>
             <td>{{ colaborador.email }}</td>
             <td>
-                <button (click)="edit(colaborador)" [disabled]="loading" class="btn btn-sm btn-info btn-block">
+                <button (click)="edit(colaborador)" [disabled]="loading" class="btn btn-sm btn-info ">
                     <span class='glyphicon  glyphicon-pencil'></span>
                 </button>
-            </td>
-            <td>
-                <button (click)="delete(colaborador.id)" [disabled]="loading" class="btn btn-sm btn-info btn-block">
+                <button (click)="delete(colaborador.id)" [disabled]="loading" class="btn btn-sm btn-info ">
                     <span class='glyphicon  glyphicon-trash'></span>
                 </button>
             </td>

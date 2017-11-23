@@ -12,7 +12,6 @@
             <th>Modelo</th>
             <th>Placa</th>
             <th></th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -22,12 +21,10 @@
             <td>{{ veiculo.modelo }}</td>
             <td>{{ veiculo.placa }}</td>
             <td>
-                <button (click)="edit(veiculo)" [disabled]="loading" class="btn btn-sm btn-info btn-block">
+                <button (click)="edit(veiculo)" [disabled]="loading" class="btn btn-sm btn-info">
                     <span class='glyphicon  glyphicon-pencil'></span>
                 </button>
-            </td>
-            <td>
-                <button (click)="delete(veiculo.id)" [disabled]="loading" class="btn btn-sm btn-info btn-block">
+                <button (click)="delete(veiculo.id)" [disabled]="loading" class="btn btn-sm btn-info">
                     <span class='glyphicon  glyphicon-trash'></span>
                 </button>
             </td>
