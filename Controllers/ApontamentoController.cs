@@ -14,15 +14,13 @@ namespace TccFrotaApp.Controllers
     [Route("api/[controller]")]
     public class ApontamentoController : Controller
     {
-
+        //Inicializador do controlador, recebe o contexto do banco de dados e coloca em cache por meio da variavel _dbContext
         private readonly FrotaAppDbContext _dbContext;
         public ApontamentoController(FrotaAppDbContext dbContext)
         {
-
             _dbContext = dbContext;
-
         }
-
+        //Retorna todos os apntamentos em formato JSON
         // GET api/apontamento/GetAll
         [HttpGet]
         public IEnumerable<ApontamentoViewModel> GetAll()
@@ -54,7 +52,7 @@ namespace TccFrotaApp.Controllers
                 Coletor3Nome = a.Coletor3.Nome,
             });
         }
-
+        //Retorna todos os apntamentos em formato de arquivo csv
         [HttpGet("[action]")]
         [Route("apontamentos.csv")]
         [Produces("text/csv")]
@@ -93,7 +91,7 @@ namespace TccFrotaApp.Controllers
 
             return Ok(apontamentosToExport);
         }
-
+        //Retorna todos os apontamentos pais, ou seja apontamentos iniciais
         // GET api/apontamento/GetAllParrents
         [HttpGet("[action]")]
         public IEnumerable<ApontamentoViewModel> GetAllParrents()
@@ -128,7 +126,7 @@ namespace TccFrotaApp.Controllers
                 EmAberto = !a.Apontamentos.Any(b => b.Tipo == TIPO_APONTAMENTO.KM_FINAL)
             });
         }
-
+        //Retorna todos os apontamentos filhos, de acordo com o id do pai passado de parametro
         // GET api/apontamento/GetAllChilds
         [HttpGet("[action]")]
         public IEnumerable<ApontamentoViewModel> GetAllChilds(int id)
@@ -161,7 +159,7 @@ namespace TccFrotaApp.Controllers
                 Coletor3Nome = a.Coletor3.Nome,
             });
         }
-
+        //salva um novo apontamento no banco de dados
         // POST api/apontamento
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]ApontamentoViewModel model)
@@ -229,10 +227,5 @@ namespace TccFrotaApp.Controllers
 
             return new OkObjectResult("Apontamento criado");
         }
-
-
-
-
-
     }
 }
